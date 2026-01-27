@@ -1,0 +1,88 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+.product-form-page {
+  padding: $spacing-lg 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: $font-size-xxl;
+  color: $secondary-color;
+  margin-bottom: $spacing-xl;
+  text-align: center;
+}
+
+.product-form {
+  @include card;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-lg;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+.form-group {
+  margin-bottom: $spacing-md;
+
+  label {
+    display: block;
+    margin-bottom: $spacing-xs;
+    font-weight: 500;
+    color: $text-color;
+  }
+
+  input {
+    @include input-base;
+
+    &.error {
+      border-color: $error-color;
+    }
+
+    &:disabled {
+      background-color: $background-color;
+      cursor: not-allowed;
+      color: $text-light;
+    }
+  }
+
+  .error-message {
+    display: block;
+    color: $error-color;
+    font-size: $font-size-sm;
+    margin-top: $spacing-xs;
+  }
+}
+
+.form-actions {
+  @include flex-center;
+  gap: $spacing-md;
+  margin-top: $spacing-xl;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $border-color;
+
+  @include mobile {
+    flex-direction: column-reverse;
+
+    .btn {
+      width: 100%;
+    }
+  }
+}
+
+.error-alert {
+  padding: $spacing-md;
+  margin-bottom: $spacing-lg;
+  background-color: rgba($error-color, 0.1);
+  border: 1px solid $error-color;
+  border-radius: $border-radius-sm;
+  color: $error-color;
+  text-align: center;
+}

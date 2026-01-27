@@ -1,0 +1,47 @@
+<div class="product-list">
+  <div class="product-list__header">
+    <app-search-box (searchChange)="onSearchChange($event)"></app-search-box>
+    <button type="button" class="btn btn-primary" (click)="onAddProduct()">
+      Agregar
+    </button>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-alert">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  @if (isLoading()) {
+    <app-skeleton-loader [rows]="pageSize()"></app-skeleton-loader>
+  } @else {
+    <app-product-table
+      [products]="paginatedProducts()"
+      (edit)="onEditProduct($event)"
+      (delete)="onDeleteProduct($event)"
+    ></app-product-table>
+  }
+
+  <div class="product-list__footer">
+    <span class="results-count">{{ totalResults() }} Resultados</span>
+    <div class="pagination">
+      <select
+        [value]="pageSize()"
+        (change)="onPageSizeChange($event)"
+        class="page-size-select"
+        aria-label="Cantidad de registros por página"
+      >
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+      </select>
+    </div>
+  </div>
+
+  <app-confirmation-modal
+    [isOpen]="isModalOpen()"
+    [productName]="productToDelete()?.name || ''"
+    (confirm)="onConfirmDelete()"
+    (cancel)="onCancelDelete()"
+  ></app-confirmation-modal>
+</div>

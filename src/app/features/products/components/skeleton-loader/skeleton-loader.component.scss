@@ -1,0 +1,58 @@
+@import '../../../../../styles/variables';
+@import '../../../../../styles/mixins';
+
+.skeleton-table {
+  width: 100%;
+}
+
+.skeleton-header,
+.skeleton-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 2fr 120px 120px 50px;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  border-bottom: 1px solid $border-color;
+
+  @include mobile {
+    grid-template-columns: 40px 1fr 80px 50px;
+
+    .skeleton-cell--description,
+    .skeleton-cell--date:first-of-type {
+      display: none;
+    }
+  }
+}
+
+.skeleton-header {
+  background-color: $background-color;
+}
+
+.skeleton-cell {
+  height: 20px;
+  border-radius: $border-radius-sm;
+  @include skeleton-animation;
+
+  &--logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  &--name {
+    width: 80%;
+  }
+
+  &--description {
+    width: 90%;
+  }
+
+  &--date {
+    width: 100%;
+  }
+
+  &--actions {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+}

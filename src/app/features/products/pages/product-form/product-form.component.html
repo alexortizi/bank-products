@@ -1,0 +1,147 @@
+<div class="product-form-page">
+  <h1 class="page-title">
+    @if (isEditMode()) {
+      Editar Producto
+    } @else {
+      Formulario de Registro
+    }
+  </h1>
+
+  @if (errorMessage()) {
+    <div class="error-alert">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="product-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="id">ID</label>
+        <input
+          type="text"
+          id="id"
+          formControlName="id"
+          [class.error]="isFieldInvalid('id')"
+        />
+        @if (hasError('id', 'required')) {
+          <span class="error-message">Este campo es requerido</span>
+        }
+        @if (hasError('id', 'minlength')) {
+          <span class="error-message">Mínimo 3 caracteres</span>
+        }
+        @if (hasError('id', 'maxlength')) {
+          <span class="error-message">Máximo 10 caracteres</span>
+        }
+        @if (hasError('id', 'idExists')) {
+          <span class="error-message">Este ID ya existe</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          [class.error]="isFieldInvalid('name')"
+        />
+        @if (hasError('name', 'required')) {
+          <span class="error-message">Este campo es requerido</span>
+        }
+        @if (hasError('name', 'minlength')) {
+          <span class="error-message">Mínimo 5 caracteres</span>
+        }
+        @if (hasError('name', 'maxlength')) {
+          <span class="error-message">Máximo 100 caracteres</span>
+        }
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="description">Descripción</label>
+        <input
+          type="text"
+          id="description"
+          formControlName="description"
+          [class.error]="isFieldInvalid('description')"
+        />
+        @if (hasError('description', 'required')) {
+          <span class="error-message">Este campo es requerido</span>
+        }
+        @if (hasError('description', 'minlength')) {
+          <span class="error-message">Mínimo 10 caracteres</span>
+        }
+        @if (hasError('description', 'maxlength')) {
+          <span class="error-message">Máximo 200 caracteres</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="logo">Logo</label>
+        <input
+          type="text"
+          id="logo"
+          formControlName="logo"
+          placeholder="URL del logo"
+          [class.error]="isFieldInvalid('logo')"
+        />
+        @if (hasError('logo', 'required')) {
+          <span class="error-message">Este campo es requerido</span>
+        }
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="date_release">Fecha Liberación</label>
+        <input
+          type="date"
+          id="date_release"
+          formControlName="date_release"
+          [class.error]="isFieldInvalid('date_release')"
+        />
+        @if (hasError('date_release', 'required')) {
+          <span class="error-message">Este campo es requerido</span>
+        }
+        @if (hasError('date_release', 'minDate')) {
+          <span class="error-message">La fecha debe ser igual o mayor a hoy</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="date_revision">Fecha Revisión</label>
+        <input
+          type="date"
+          id="date_revision"
+          formControlName="date_revision"
+          [class.error]="isFieldInvalid('date_revision')"
+        />
+        @if (hasError('date_revision', 'required')) {
+          <span class="error-message">Este campo es requerido</span>
+        }
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="onReset()"
+      >
+        Reiniciar
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="form.invalid || isLoading()"
+      >
+        @if (isLoading()) {
+          Guardando...
+        } @else {
+          Enviar
+        }
+      </button>
+    </div>
+  </form>
+</div>

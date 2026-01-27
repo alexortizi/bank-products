@@ -1,0 +1,43 @@
+<div class="table-container">
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th class="col-logo">Logo</th>
+        <th class="col-name">Nombre del producto</th>
+        <th class="col-description">Descripción</th>
+        <th class="col-date">Fecha de liberación</th>
+        <th class="col-date">Fecha de revisión</th>
+        <th class="col-actions"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of products; track trackByProductId($index, product)) {
+        <tr>
+          <td class="col-logo">
+            <img
+              [src]="product.logo"
+              [alt]="product.name"
+              class="product-logo"
+              (error)="onImageError($event)"
+            />
+          </td>
+          <td class="col-name">{{ product.name }}</td>
+          <td class="col-description">{{ product.description }}</td>
+          <td class="col-date">{{ product.date_release | dateFormat }}</td>
+          <td class="col-date">{{ product.date_revision | dateFormat }}</td>
+          <td class="col-actions">
+            <app-context-menu
+              [productId]="product.id"
+              (edit)="onEdit($event)"
+              (delete)="onDelete($event)"
+            ></app-context-menu>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="6" class="empty-message">No se encontraron productos</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

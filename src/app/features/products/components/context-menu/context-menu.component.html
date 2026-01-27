@@ -1,0 +1,33 @@
+<div class="context-menu">
+  <button
+    type="button"
+    class="context-menu__trigger"
+    (click)="toggle()"
+    [attr.aria-expanded]="isOpen"
+    aria-haspopup="true"
+    aria-label="Opciones del producto"
+  >
+    <span class="context-menu__dots">⋮</span>
+  </button>
+
+  @if (isOpen) {
+    <div class="context-menu__dropdown" role="menu">
+      <button
+        type="button"
+        class="context-menu__item"
+        (click)="onEdit()"
+        role="menuitem"
+      >
+        Editar
+      </button>
+      <button
+        type="button"
+        class="context-menu__item context-menu__item--danger"
+        (click)="onDelete()"
+        role="menuitem"
+      >
+        Eliminar
+      </button>
+    </div>
+  }
+</div>

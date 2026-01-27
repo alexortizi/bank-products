@@ -1,0 +1,27 @@
+@if (isOpen) {
+  <div class="modal-backdrop" (click)="onBackdropClick($event)" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal__content">
+        <p class="modal__message">
+          ¿Estás seguro de eliminar el producto <strong>{{ productName }}</strong>?
+        </p>
+      </div>
+      <div class="modal__actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="onCancel()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="onConfirm()"
+        >
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+}

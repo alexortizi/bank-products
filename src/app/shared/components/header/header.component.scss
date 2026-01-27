@@ -1,0 +1,32 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.header {
+  background-color: $white;
+  box-shadow: $shadow-sm;
+  padding: $spacing-md 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  .container {
+    @include flex-between;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-size: $font-size-xl;
+  font-weight: 700;
+  color: $secondary-color;
+
+  &-icon {
+    font-size: $font-size-xxl;
+  }
+
+  &-text {
+    letter-spacing: 2px;
+  }
+}
