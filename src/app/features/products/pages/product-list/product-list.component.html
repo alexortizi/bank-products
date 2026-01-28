@@ -18,7 +18,7 @@
     <app-product-table
       [products]="paginatedProducts()"
       [isLoading]="isLoading()"
-      [skeletonRows]="pageSize()"
+      [skeletonRows]="5"
       [searchTerm]="searchTerm()"
       (edit)="onEditProduct($event)"
       (delete)="onDeleteProduct($event)"

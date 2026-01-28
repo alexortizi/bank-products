@@ -71,7 +71,8 @@ describe('ProductListComponent', () => {
     tick();
 
     expect(mockProductService.getProducts).toHaveBeenCalled();
-    expect(component.products()).toEqual(mockProducts);
+    // Los productos se invierten para mostrar los más recientes primero
+    expect(component.products()).toEqual([...mockProducts].reverse());
     expect(component.isLoading()).toBe(false);
   }));
 

@@ -10,7 +10,9 @@
   z-index: 100;
 
   .container {
-    @include flex-between;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 

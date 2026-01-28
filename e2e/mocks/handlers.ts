@@ -1,6 +1,7 @@
-import { Product } from '@core/models/product.model';
+import { Page } from '@playwright/test';
 
-export const MOCK_PRODUCTS: Product[] = [
+// Mock products matching the Angular app's mock data
+export const mockProducts = [
   {
     id: 'trj-crd-01',
     name: 'Tarjeta de Crédito Oro',
@@ -59,6 +60,10 @@ export const MOCK_PRODUCTS: Product[] = [
   }
 ];
 
-export function generateMockId(): string {
-  return `mock-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+// No Playwright mocks needed - Angular's mock interceptor handles API calls
+// This function is kept for compatibility but does nothing
+export async function setupMocks(_page: Page): Promise<void> {
+  // The Angular app uses its own mock interceptor (environment.useMocks: true)
+  // which intercepts HTTP requests at the Angular HttpClient level.
+  // No Playwright route interception is needed.
 }

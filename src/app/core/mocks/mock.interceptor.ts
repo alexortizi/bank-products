@@ -21,7 +21,7 @@ export const mockInterceptor: HttpInterceptorFn = (req, next) => {
   if (url.endsWith('/bp/products') && method === 'GET') {
     return of(new HttpResponse({
       status: 200,
-      body: [...mockProducts]
+      body: { data: [...mockProducts] }
     })).pipe(delay(mockDelay));
   }
 
@@ -69,7 +69,7 @@ export const mockInterceptor: HttpInterceptorFn = (req, next) => {
 
     return of(new HttpResponse({
       status: 201,
-      body: { ...newProduct }
+      body: { message: 'Product added successfully', data: { ...newProduct } }
     })).pipe(delay(mockDelay));
   }
 
@@ -83,7 +83,7 @@ export const mockInterceptor: HttpInterceptorFn = (req, next) => {
       mockProducts[index] = { ...updatedProduct, id: id! };
       return of(new HttpResponse({
         status: 200,
-        body: { ...mockProducts[index] }
+        body: { message: 'Product updated successfully', data: { ...mockProducts[index] } }
       })).pipe(delay(mockDelay));
     } else {
       return of(new HttpResponse({

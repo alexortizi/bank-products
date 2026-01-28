@@ -174,11 +174,14 @@
       <button
         type="submit"
         class="btn btn-primary"
-        [disabled]="form.invalid || isLoading()"
+        [disabled]="form.invalid || form.pending || isLoading()"
       >
         @if (isLoading()) {
           <span class="spinner"></span>
           Guardando...
+        } @else if (isValidatingId()) {
+          <span class="spinner"></span>
+          Validando ID...
         } @else {
           Enviar
         }

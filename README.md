@@ -10,6 +10,7 @@ Aplicación frontend desarrollada en Angular para la gestión de productos finan
 | **TypeScript** | 5.4.2   | Tipado estático robusto, mejor intellisense y detección temprana de errores                                              |
 | **RxJS**       | 7.8.0   | Manejo reactivo de streams de datos y operaciones asíncronas                                                             |
 | **Jest**       | 29.7.0  | Framework de testing rápido con mejor DX que Karma/Jasmine                                                               |
+| **Playwright** | 1.58.0  | Framework de testing e2e moderno, rápido y con soporte multi-browser                                                     |
 | **SCSS**       | -       | Preprocesador CSS para variables, mixins y estilos modulares                                                             |
 
 ### ¿Por qué Angular 18?
@@ -95,9 +96,45 @@ src/app/
    asdf install
    ```
 
+## Configuración del Backend
+
+Esta aplicación requiere un backend REST API que debe estar ejecutándose antes de iniciar el frontend.
+
+### Iniciar el Backend
+
+1. **Navegar al directorio del backend**
+
+   ```bash
+   cd /ruta/al/backend
+   ```
+
+2. **Instalar dependencias (primera vez)**
+
+   ```bash
+   npm install
+   ```
+
+3. **Iniciar el servidor de desarrollo**
+
+   ```bash
+   npm run start:dev
+   ```
+
+El backend estará disponible en `http://localhost:3002/bp/products`
+
+### Configuración de Entornos
+
+El proyecto utiliza diferentes archivos de configuración para cada entorno:
+
+- **`environment.ts`**: Producción - Backend real, sin mocks
+- **`environment.test.ts`**: Testing - Usa mocks para tests unitarios
+- **`environment.development.ts`**: Desarrollo - Backend real, sin mocks
+
 ## Ejecución
 
 ### Desarrollo
+
+**Importante:** Asegúrate de que el backend esté ejecutándose antes de iniciar el frontend.
 
 ```bash
 npm start
@@ -145,6 +182,39 @@ All files            |      94 |    82.08 |   92.94 |   93.7  |
 
 **Cobertura total: 93.7%**
 
+### Tests End-to-End (E2E)
+
+Los tests e2e se ejecutan con Playwright y cubren los flujos principales de la aplicación.
+
+**Importante:** Los tests e2e requieren que tanto el frontend como el backend estén ejecutándose:
+
+```bash
+# Terminal 1: Iniciar backend
+cd /ruta/al/backend
+npm run start:dev
+
+# Terminal 2: Iniciar frontend
+cd /ruta/al/frontend
+npm start
+
+# Terminal 3: Ejecutar tests e2e
+npm run e2e
+
+# Ejecutar con interfaz visual
+npm run e2e:ui
+
+# Ejecutar en modo headed (ver navegador)
+npm run e2e:headed
+
+# Ver reporte de tests
+npm run e2e:report
+```
+
+**Cobertura E2E:**
+- 40 tests ejecutados
+- 100% de tests pasando
+- Cobertura de flujos completos: listado, búsqueda, creación, edición y eliminación de productos
+
 ## Funcionalidades
 
 ### Listado de Productos
@@ -152,25 +222,34 @@ All files            |      94 |    82.08 |   92.94 |   93.7  |
 - Visualización de productos en tabla
 - Columnas: Logo, Nombre, Descripción, Fecha Liberación, Fecha Revisión
 - Tooltips informativos en cabeceras
+- **Ordenamiento**: Botón para ordenar productos alfabéticamente por nombre
+  - Primer clic: Orden ascendente (A-Z)
+  - Segundo clic: Orden descendente (Z-A)
+  - Tercer clic: Vuelve al orden original
 
 ### Búsqueda de Productos
 
-- Campo de búsqueda en tiempo real
+- Campo de búsqueda en tiempo real con debounce
 - Filtrado por nombre y descripción
-- Resaltado de coincidencias
+- Resaltado de coincidencias en resultados
 - Botón para limpiar búsqueda
 
 ### Paginación
 
 - Selector de cantidad de registros (5, 10, 20)
 - Contador de resultados totales
+- Paginación dinámica basada en resultados filtrados
 
 ### Agregar Producto
 
 - Formulario de registro con validaciones
-- Validación asíncrona de ID único
-- Cálculo automático de fecha de revisión (+1 año)
-- Mensajes de error por campo
+- **Validación asíncrona de ID único**: Verifica en tiempo real si el ID ya existe
+  - Botón deshabilitado durante la validación
+  - Muestra "Validando ID..." mientras verifica
+  - Previene envío con validaciones pendientes
+- Cálculo automático de fecha de revisión (+1 año desde fecha de liberación)
+- Validación de fecha mínima (debe ser igual o mayor a hoy)
+- Mensajes de error específicos por campo y tipo de validación
 
 ### Editar Producto
 
@@ -192,10 +271,14 @@ All files            |      94 |    82.08 |   92.94 |   93.7  |
 
 ## Scripts Disponibles
 
-| Script                  | Descripción                    |
-| ----------------------- | ------------------------------ |
-| `npm start`             | Inicia servidor de desarrollo  |
-| `npm run build`         | Compila para producción        |
-| `npm test`              | Ejecuta tests unitarios        |
-| `npm run test:coverage` | Tests con reporte de cobertura |
-| `npm run test:watch`    | Tests en modo observador       |
+| Script                  | Descripción                       |
+| ----------------------- | --------------------------------- |
+| `npm start`             | Inicia servidor de desarrollo     |
+| `npm run build`         | Compila para producción           |
+| `npm test`              | Ejecuta tests unitarios           |
+| `npm run test:coverage` | Tests con reporte de cobertura    |
+| `npm run test:watch`    | Tests en modo observador          |
+| `npm run e2e`           | Ejecuta tests e2e con Playwright  |
+| `npm run e2e:ui`        | Tests e2e con interfaz visual     |
+| `npm run e2e:headed`    | Tests e2e mostrando el navegador  |
+| `npm run e2e:report`    | Muestra reporte de tests e2e      |

@@ -67,7 +67,8 @@ export class ProductListComponent implements OnInit {
 
     this.productService.getProducts().subscribe({
       next: (products) => {
-        this.products.set(products);
+        // Invertir el orden para mostrar los más recientes primero
+        this.products.set([...products].reverse());
         this.isLoading.set(false);
       },
       error: (error) => {

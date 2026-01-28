@@ -171,4 +171,9 @@ export class ProductFormComponent implements OnInit {
     const control = this.form.get(fieldName);
     return control ? control.invalid && control.touched : false;
   }
+
+  isValidatingId(): boolean {
+    const idControl = this.form.get('id');
+    return idControl ? idControl.pending && idControl.dirty && !idControl.hasError('required') && !idControl.hasError('minlength') && !idControl.hasError('maxlength') : false;
+  }
 }

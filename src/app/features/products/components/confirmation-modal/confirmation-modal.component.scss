@@ -23,7 +23,6 @@
   &__content {
     padding: $spacing-xl $spacing-lg;
     text-align: center;
-    border-bottom: 1px solid $border-color;
   }
 
   &__message {
@@ -40,6 +39,5 @@
     @include flex-center;
     gap: $spacing-md;
     padding: $spacing-lg;
-    background-color: $background-color;
   }
 }
