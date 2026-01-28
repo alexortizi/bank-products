@@ -66,7 +66,8 @@ test.describe('Product Actions - Delete Modal', () => {
     await page.getByText('Eliminar').first().click();
 
     await expect(page.locator('.modal__message')).toContainText('¿Estás seguro de eliminar');
-    await expect(page.locator('.modal__message')).toContainText('Tarjeta de Crédito Oro');
+    // After reverse(), first product is now "Crédito Hipotecario"
+    await expect(page.locator('.modal__message')).toContainText('Crédito Hipotecario');
   });
 
   test('should display cancel and confirm buttons', async ({ page }) => {
