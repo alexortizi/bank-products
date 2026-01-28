@@ -1,6 +1,14 @@
 # Bank Products - Sistema de Gestión de Productos Financieros
 
-Aplicación frontend desarrollada en Angular para la gestión de productos financieros de un banco. Permite visualizar, crear, editar y eliminar productos mediante una interfaz intuitiva y responsive.
+Aplicación frontend desarrollada en Angular 18 para la gestión de productos financieros de un banco. Permite visualizar, crear, editar y eliminar productos mediante una interfaz intuitiva y responsive.
+
+**Desarrollado por:** Alex Ortiz ([@alexortizi](https://github.com/alexortizi))
+
+## 🚀 Demo en Vivo
+
+**Ver demo:** [https://alexortizi.github.io/bank-products/products](https://alexortizi.github.io/bank-products/products)
+
+> ⚠️ **Nota:** La demo utiliza datos simulados (mocks). Los cambios realizados no son persistentes y se reinician al recargar la página.
 
 ## Tecnologías Utilizadas
 
@@ -282,3 +290,46 @@ npm run e2e:report
 | `npm run e2e:ui`        | Tests e2e con interfaz visual     |
 | `npm run e2e:headed`    | Tests e2e mostrando el navegador  |
 | `npm run e2e:report`    | Muestra reporte de tests e2e      |
+| `npm run build:demo`    | Compila para GitHub Pages (con mocks) |
+| `npm run deploy`        | Despliega a GitHub Pages          |
+
+## Deploy a GitHub Pages
+
+La aplicación está configurada para desplegarse fácilmente a GitHub Pages con datos simulados (mocks).
+
+### Configuración (solo primera vez)
+
+1. **Instalar angular-cli-ghpages**
+   ```bash
+   npm install -g angular-cli-ghpages
+   ```
+
+2. **Configurar GitHub Pages en tu repositorio**
+   - Ve a Settings → Pages
+   - Source: Deploy from a branch
+   - Branch: `gh-pages` → `/ (root)`
+   - Save
+
+### Desplegar
+
+Para publicar o actualizar la demo:
+
+```bash
+npm run deploy
+```
+
+Este comando:
+1. Compila el proyecto con la configuración `demo` (usa mocks)
+2. Configura el `base-href` correctamente
+3. Sube los archivos a la rama `gh-pages`
+4. Tu demo estará disponible en: `https://tu-usuario.github.io/bank-products/`
+
+### Diferencias entre Builds
+
+| Build | Comando | Mocks | Backend | Uso |
+|-------|---------|-------|---------|-----|
+| **Desarrollo** | `npm start` | ❌ No | ✅ Requerido | Desarrollo local |
+| **Producción** | `npm run build` | ❌ No | ✅ Requerido | Deploy con backend real |
+| **Demo** | `npm run build:demo` | ✅ Sí | ❌ No requerido | GitHub Pages demo |
+
+**Demo actual:** [https://alexortizi.github.io/bank-products/products](https://alexortizi.github.io/bank-products/products)
