@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:demo": "ng build --configuration demo --base-href /bank-products/",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -12,7 +13,8 @@
     "e2e": "playwright test",
     "e2e:ui": "playwright test --ui",
     "e2e:headed": "playwright test --headed",
-    "e2e:report": "playwright show-report"
+    "e2e:report": "playwright show-report",
+    "deploy": "npm run build:demo && npx angular-cli-ghpages --dir=dist/bank-products/browser"
   },
   "private": true,
   "dependencies": {

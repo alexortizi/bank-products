@@ -1,5 +1,11 @@
 <header class="header">
   <div class="container">
+    @if (isDemo) {
+      <div class="demo-badge">
+        <span class="demo-badge__icon">⚠️</span>
+        <span class="demo-badge__text">DEMO - Data is not real</span>
+      </div>
+    }
     <a routerLink="/" class="logo">
       <span class="logo-icon">🏦</span>
       <span class="logo-text">BANCO</span>
