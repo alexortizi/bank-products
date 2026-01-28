@@ -4,39 +4,94 @@
       <tr>
         <th class="col-logo">Logo</th>
         <th class="col-name">Nombre del producto</th>
-        <th class="col-description">Descripción</th>
-        <th class="col-date">Fecha de liberación</th>
-        <th class="col-date">Fecha de revisión</th>
+        <th class="col-description">
+          Descripción
+          <span class="tooltip-wrapper">
+            <span class="info-icon" (mouseenter)="showTooltip($event)">ⓘ</span>
+            <span class="tooltip-text">Descripción detallada del producto financiero</span>
+          </span>
+        </th>
+        <th class="col-date">
+          Fecha de liberación
+          <span class="tooltip-wrapper">
+            <span class="info-icon" (mouseenter)="showTooltip($event)">ⓘ</span>
+            <span class="tooltip-text">Fecha en que el producto estará disponible para los clientes</span>
+          </span>
+        </th>
+        <th class="col-date">
+          Fecha de revisión
+          <span class="tooltip-wrapper">
+            <span class="info-icon" (mouseenter)="showTooltip($event)">ⓘ</span>
+            <span class="tooltip-text">Fecha de revisión del producto</span>
+          </span>
+        </th>
         <th class="col-actions"></th>
       </tr>
     </thead>
     <tbody>
-      @for (product of products; track trackByProductId($index, product)) {
-        <tr>
-          <td class="col-logo">
-            <img
-              [src]="product.logo"
-              [alt]="product.name"
-              class="product-logo"
-              (error)="onImageError($event)"
-            />
-          </td>
-          <td class="col-name">{{ product.name }}</td>
-          <td class="col-description">{{ product.description }}</td>
-          <td class="col-date">{{ product.date_release | dateFormat }}</td>
-          <td class="col-date">{{ product.date_revision | dateFormat }}</td>
-          <td class="col-actions">
-            <app-context-menu
-              [productId]="product.id"
-              (edit)="onEdit($event)"
-              (delete)="onDelete($event)"
-            ></app-context-menu>
-          </td>
-        </tr>
-      } @empty {
-        <tr>
-          <td colspan="6" class="empty-message">No se encontraron productos</td>
-        </tr>
+      @if (isLoading) {
+        @for (row of skeletonRowsArray; track $index) {
+          <tr>
+            <td class="col-logo">
+              <div class="skeleton skeleton--logo"></div>
+            </td>
+            <td class="col-name">
+              <div class="skeleton skeleton--text"></div>
+            </td>
+            <td class="col-description">
+              <div class="skeleton skeleton--text-long"></div>
+            </td>
+            <td class="col-date">
+              <div class="skeleton skeleton--text"></div>
+            </td>
+            <td class="col-date">
+              <div class="skeleton skeleton--text"></div>
+            </td>
+            <td class="col-actions">
+              <div class="skeleton skeleton--circle"></div>
+            </td>
+          </tr>
+        }
+      } @else {
+        @for (product of products; track trackByProductId($index, product)) {
+          <tr class="product-row">
+            <td class="col-logo">
+              @if (failedImages.has(product.id)) {
+                <div class="product-initials">{{ getInitials(product.name) }}</div>
+              } @else {
+                <img
+                  [src]="product.logo"
+                  [alt]="product.name"
+                  class="product-logo"
+                  (error)="onImageError(product.id)"
+                />
+              }
+            </td>
+            <td class="col-name" [innerHTML]="product.name | highlight:searchTerm"></td>
+            <td class="col-description" [innerHTML]="product.description | highlight:searchTerm"></td>
+            <td class="col-date">{{ product.date_release | dateFormat }}</td>
+            <td class="col-date">{{ product.date_revision | dateFormat }}</td>
+            <td class="col-actions">
+              <app-context-menu
+                [productId]="product.id"
+                (edit)="onEdit($event)"
+                (delete)="onDelete($event)"
+              ></app-context-menu>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="empty-state">
+              <div class="empty-state__content">
+                <span class="empty-state__emoji">😕</span>
+                <p class="empty-state__text">No se encontraron productos</p>
+                <button type="button" class="empty-state__btn" (click)="reload.emit()">
+                  ↻ Recargar
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
       }
     </tbody>
   </table>

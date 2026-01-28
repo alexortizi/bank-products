@@ -34,7 +34,7 @@ describe('SkeletonLoaderComponent', () => {
   it('should render skeleton rows in template with default rows', () => {
     fixture.detectChanges();
 
-    const rows = fixture.nativeElement.querySelectorAll('.skeleton-row');
+    const rows = fixture.nativeElement.querySelectorAll('tbody tr');
     expect(rows.length).toBe(5);
   });
 });

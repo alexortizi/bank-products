@@ -4,12 +4,14 @@ import { of, throwError } from 'rxjs';
 import { ProductListComponent } from './product-list.component';
 import { ProductService } from '@core/services/product.service';
 import { Product } from '@core/models/product.model';
+import { ToastService } from '@shared/components/toast/toast.service';
 
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
   let mockProductService: jest.Mocked<ProductService>;
   let mockRouter: jest.Mocked<Router>;
+  let mockToastService: jest.Mocked<ToastService>;
 
   const mockProducts: Product[] = [
     {
@@ -40,11 +42,19 @@ describe('ProductListComponent', () => {
       navigate: jest.fn()
     } as unknown as jest.Mocked<Router>;
 
+    mockToastService = {
+      success: jest.fn(),
+      error: jest.fn(),
+      info: jest.fn(),
+      warning: jest.fn()
+    } as unknown as jest.Mocked<ToastService>;
+
     await TestBed.configureTestingModule({
       imports: [ProductListComponent],
       providers: [
         { provide: ProductService, useValue: mockProductService },
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
+        { provide: ToastService, useValue: mockToastService }
       ]
     }).compileComponents();
 
@@ -157,7 +167,8 @@ describe('ProductListComponent', () => {
     tick();
 
     expect(mockProductService.deleteProduct).toHaveBeenCalledWith('prod-1');
-    expect(component.products().length).toBe(1);
+    expect(mockToastService.success).toHaveBeenCalledWith(`Producto "${product.name}" eliminado exitosamente`);
+    expect(mockProductService.getProducts).toHaveBeenCalledTimes(2); // Initial load + reload after delete
     expect(component.isModalOpen()).toBe(false);
   }));
 
@@ -171,8 +182,18 @@ describe('ProductListComponent', () => {
     component.onConfirmDelete();
     tick();
 
-    expect(component.errorMessage()).toBe('Delete error');
+    expect(mockToastService.error).toHaveBeenCalledWith('Delete error');
     expect(component.isModalOpen()).toBe(false);
+  }));
+
+  it('should refresh products when onRefresh is called', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+
+    component.onRefresh();
+    tick();
+
+    expect(mockProductService.getProducts).toHaveBeenCalledTimes(2);
   }));
 
   it('should compute total results correctly', fakeAsync(() => {

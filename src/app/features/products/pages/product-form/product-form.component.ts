@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '@core/services/product.service';
 import { Product } from '@core/models/product.model';
+import { ToastService } from '@shared/components/toast/toast.service';
 import { minDateValidator, uniqueIdValidator } from '../../validators/product.validators';
 
 @Component({
@@ -19,12 +20,15 @@ export class ProductFormComponent implements OnInit {
   private readonly productService = inject(ProductService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastService);
 
   form!: FormGroup;
   isEditMode = signal(false);
   isLoading = signal(false);
+  isLoadingData = signal(false);
   errorMessage = signal<string | null>(null);
   private productId: string | null = null;
+  private originalProduct: Product | null = null;
 
   ngOnInit(): void {
     this.initForm();
@@ -78,10 +82,11 @@ export class ProductFormComponent implements OnInit {
   }
 
   private loadProduct(id: string): void {
-    this.isLoading.set(true);
+    this.isLoadingData.set(true);
 
     this.productService.getProductById(id).subscribe({
       next: (product) => {
+        this.originalProduct = product;
         this.form.patchValue({
           id: product.id,
           name: product.name,
@@ -90,11 +95,12 @@ export class ProductFormComponent implements OnInit {
           date_release: product.date_release,
           date_revision: product.date_revision
         });
-        this.isLoading.set(false);
+        this.form.get('date_release')?.markAsTouched();
+        this.isLoadingData.set(false);
       },
       error: (error) => {
         this.errorMessage.set(error.message);
-        this.isLoading.set(false);
+        this.isLoadingData.set(false);
       }
     });
   }
@@ -124,6 +130,10 @@ export class ProductFormComponent implements OnInit {
 
     operation.subscribe({
       next: () => {
+        const message = this.isEditMode()
+          ? 'Producto actualizado exitosamente'
+          : 'Producto agregado exitosamente';
+        this.toastService.success(message);
         this.router.navigate(['/products']);
       },
       error: (error) => {
@@ -134,8 +144,15 @@ export class ProductFormComponent implements OnInit {
   }
 
   onReset(): void {
-    if (this.isEditMode() && this.productId) {
-      this.loadProduct(this.productId);
+    if (this.isEditMode() && this.originalProduct) {
+      this.form.patchValue({
+        id: this.originalProduct.id,
+        name: this.originalProduct.name,
+        description: this.originalProduct.description,
+        logo: this.originalProduct.logo,
+        date_release: this.originalProduct.date_release,
+        date_revision: this.originalProduct.date_revision
+      });
     } else {
       this.form.reset();
     }

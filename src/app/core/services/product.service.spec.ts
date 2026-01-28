@@ -45,7 +45,7 @@ describe('ProductService', () => {
 
       const req = httpMock.expectOne(baseUrl);
       expect(req.request.method).toBe('GET');
-      req.flush(mockProducts);
+      req.flush({ data: mockProducts });
     });
   });
 
@@ -70,7 +70,7 @@ describe('ProductService', () => {
       const req = httpMock.expectOne(baseUrl);
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(mockProduct);
-      req.flush(mockProduct);
+      req.flush({ message: 'Product added successfully', data: mockProduct });
     });
   });
 
@@ -85,7 +85,7 @@ describe('ProductService', () => {
       const req = httpMock.expectOne(`${baseUrl}/test-id`);
       expect(req.request.method).toBe('PUT');
       expect(req.request.body).toEqual(updatedProduct);
-      req.flush(updatedProduct);
+      req.flush({ message: 'Product updated successfully', data: updatedProduct });
     });
   });
 

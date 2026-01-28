@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '@core/services/product.service';
 import { Product } from '@core/models/product.model';
+import { ToastService } from '@shared/components/toast/toast.service';
 import { SearchBoxComponent } from '../../components/search-box/search-box.component';
 import { ProductTableComponent } from '../../components/product-table/product-table.component';
-import { SkeletonLoaderComponent } from '../../components/skeleton-loader/skeleton-loader.component';
 import { ConfirmationModalComponent } from '../../components/confirmation-modal/confirmation-modal.component';
 
 @Component({
@@ -17,7 +17,6 @@ import { ConfirmationModalComponent } from '../../components/confirmation-modal/
     FormsModule,
     SearchBoxComponent,
     ProductTableComponent,
-    SkeletonLoaderComponent,
     ConfirmationModalComponent
   ],
   templateUrl: './product-list.component.html',
@@ -27,6 +26,7 @@ import { ConfirmationModalComponent } from '../../components/confirmation-modal/
 export class ProductListComponent implements OnInit {
   private readonly productService = inject(ProductService);
   private readonly router = inject(Router);
+  private readonly toastService = inject(ToastService);
 
   products = signal<Product[]>([]);
   isLoading = signal(true);
@@ -105,16 +105,19 @@ export class ProductListComponent implements OnInit {
 
     this.productService.deleteProduct(product.id).subscribe({
       next: () => {
-        this.products.update(products =>
-          products.filter(p => p.id !== product.id)
-        );
         this.closeModal();
+        this.toastService.success(`Producto "${product.name}" eliminado exitosamente`);
+        this.loadProducts();
       },
       error: (error) => {
-        this.errorMessage.set(error.message);
         this.closeModal();
+        this.toastService.error(error.message || 'Error al eliminar el producto');
       }
     });
+  }
+
+  onRefresh(): void {
+    this.loadProducts();
   }
 
   onCancelDelete(): void {

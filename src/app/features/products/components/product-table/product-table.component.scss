@@ -3,9 +3,6 @@
 
 .table-container {
   overflow-x: auto;
-  background-color: $white;
-  border-radius: $border-radius-md;
-  box-shadow: $shadow-sm;
 }
 
 .product-table {
@@ -20,7 +17,7 @@
   th, td {
     padding: $spacing-md;
     text-align: left;
-    border-bottom: 1px solid $border-color;
+    border-bottom: 0.5px solid $border-color;
   }
 
   th {
@@ -31,15 +28,15 @@
   }
 
   tbody tr {
-    transition: background-color $transition-fast;
+    transition: background-color $transition-fast, opacity $transition-normal;
 
     &:hover {
       background-color: rgba($primary-color, 0.05);
     }
+  }
 
-    &:last-child td {
-      border-bottom: none;
-    }
+  .product-row {
+    animation: fadeIn 0.3s ease-out;
   }
 }
 
@@ -79,13 +76,145 @@
   width: 40px;
   height: 40px;
   object-fit: contain;
-  border-radius: $border-radius-sm;
+  border-radius: 50%;
   background-color: $background-color;
 }
 
-.empty-message {
-  text-align: center;
+.product-initials {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: $background-color;
   color: $text-light;
-  padding: $spacing-xl !important;
-  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-sm;
+  font-weight: 600;
+}
+
+.empty-state {
+  padding: $spacing-xl * 2 !important;
+  border-bottom: none !important;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-md;
+  }
+
+  &__emoji {
+    font-size: 48px;
+    line-height: 1;
+  }
+
+  &__text {
+    margin: 0;
+    color: $text-light;
+    font-size: $font-size-lg;
+  }
+
+  &__btn {
+    padding: $spacing-sm $spacing-lg;
+    background-color: $white;
+    color: $text-color;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-base;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color $transition-fast, border-color $transition-fast;
+
+    &:hover {
+      background-color: $background-color;
+      border-color: $text-light;
+    }
+  }
+}
+
+.skeleton {
+  @include skeleton-animation;
+  border-radius: $border-radius-sm;
+
+  &--logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  &--text {
+    width: 80%;
+    height: 16px;
+  }
+
+  &--text-long {
+    width: 90%;
+    height: 16px;
+  }
+
+  &--circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin: 0 auto;
+  }
+}
+
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-left: $spacing-xs;
+  vertical-align: middle;
+
+  .info-icon {
+    display: inline-block;
+    color: $text-light;
+    font-size: 14px;
+    cursor: help;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+
+  .tooltip-text {
+    display: none;
+    position: fixed;
+    background-color: $secondary-color;
+    color: $white;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-sm;
+    font-weight: normal;
+    white-space: nowrap;
+    z-index: 9999;
+    box-shadow: $shadow-md;
+    pointer-events: none;
+  }
+
+  &:hover .tooltip-text {
+    display: block;
+  }
+}
+
+// Highlight para búsqueda
+::ng-deep .highlight {
+  background-color: $primary-color;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+// Animación de entrada para filas
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -7,15 +7,46 @@
   margin: 0 auto;
 }
 
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
+  margin-bottom: $spacing-md;
+  background: none;
+  border: none;
+  color: $text-light;
+  font-size: $font-size-base;
+  cursor: pointer;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $secondary-color;
+  }
+}
+
 .page-title {
   font-size: $font-size-xxl;
   color: $secondary-color;
-  margin-bottom: $spacing-xl;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-lg;
+  border-bottom: 1px solid $border-color;
   text-align: center;
 }
 
+.form-card {
+  background-color: $white;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  padding: $spacing-lg;
+}
+
 .product-form {
-  @include card;
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
 }
 
 .form-row {
@@ -65,8 +96,6 @@
   @include flex-center;
   gap: $spacing-md;
   margin-top: $spacing-xl;
-  padding-top: $spacing-lg;
-  border-top: 1px solid $border-color;
 
   @include mobile {
     flex-direction: column-reverse;
@@ -85,4 +114,55 @@
   border-radius: $border-radius-sm;
   color: $error-color;
   text-align: center;
+}
+
+.skeleton-form {
+  .form-row {
+    margin-bottom: $spacing-md;
+  }
+}
+
+.skeleton-actions {
+  @include flex-center;
+  gap: $spacing-md;
+  margin-top: $spacing-xl;
+}
+
+.skeleton {
+  @include skeleton-animation;
+  border-radius: $border-radius-sm;
+
+  &--label {
+    width: 80px;
+    height: 14px;
+    margin-bottom: $spacing-xs;
+  }
+
+  &--input {
+    width: 100%;
+    height: 40px;
+  }
+
+  &--btn {
+    width: 100px;
+    height: 40px;
+  }
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid $secondary-color;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: $spacing-xs;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

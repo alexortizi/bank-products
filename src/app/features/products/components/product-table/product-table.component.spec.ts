@@ -49,9 +49,9 @@ describe('ProductTableComponent', () => {
     fixture.componentRef.setInput('products', []);
     fixture.detectChanges();
 
-    const emptyMessage = fixture.nativeElement.querySelector('.empty-message');
-    expect(emptyMessage).toBeTruthy();
-    expect(emptyMessage.textContent).toContain('No se encontraron productos');
+    const emptyState = fixture.nativeElement.querySelector('.empty-state');
+    expect(emptyState).toBeTruthy();
+    expect(emptyState.textContent).toContain('No se encontraron productos');
   });
 
   it('should track by product id', () => {
@@ -83,12 +83,11 @@ describe('ProductTableComponent', () => {
     expect(deleteSpy).not.toHaveBeenCalled();
   });
 
-  it('should handle image error by setting fallback', () => {
-    const img = document.createElement('img');
-    const event = { target: img } as unknown as Event;
+  it('should handle image error by tracking failed images', () => {
+    const productId = 'prod-1';
 
-    component.onImageError(event);
+    component.onImageError(productId);
 
-    expect(img.src).toContain('data:image/svg+xml');
+    expect(component.failedImages.has(productId)).toBe(true);
   });
 });

@@ -219,21 +219,22 @@ describe('ProductFormComponent', () => {
       expect(component.form.get('id')?.disabled).toBe(true);
     });
 
-    it('should call onSubmit in edit mode', fakeAsync(() => {
-      tick();
+    it('should call onSubmit in edit mode', () => {
       const submitSpy = jest.spyOn(component, 'onSubmit');
       component.onSubmit();
       expect(submitSpy).toHaveBeenCalled();
-    }));
+    });
 
-    it('should reload product on reset in edit mode', fakeAsync(() => {
+    it('should restore original values on reset in edit mode', fakeAsync(() => {
       tick();
 
       component.form.get('name')?.setValue('Changed Name');
-      component.onReset();
-      tick();
+      expect(component.form.get('name')?.value).toBe('Changed Name');
 
-      expect(productService.getProductById).toHaveBeenCalledTimes(2);
+      component.onReset();
+
+      expect(component.form.get('name')?.value).toBe('Test Product');
+      expect(productService.getProductById).toHaveBeenCalledTimes(1);
     }));
   });
 

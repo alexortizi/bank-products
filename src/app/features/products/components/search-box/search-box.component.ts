@@ -34,4 +34,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   onSearch(): void {
     this.searchSubject.next(this.searchTerm);
   }
+
+  onClear(): void {
+    this.searchTerm = '';
+    this.searchSubject.next('');
+  }
 }

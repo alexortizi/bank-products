@@ -28,8 +28,11 @@ describe('Product Validators', () => {
 
     it('should return error for past date', () => {
       const pastDate = new Date();
-      pastDate.setDate(pastDate.getDate() - 1);
-      const control = new FormControl(pastDate.toISOString().split('T')[0]);
+      pastDate.setDate(pastDate.getDate() - 30);
+      const year = pastDate.getFullYear();
+      const month = String(pastDate.getMonth() + 1).padStart(2, '0');
+      const day = String(pastDate.getDate()).padStart(2, '0');
+      const control = new FormControl(`${year}-${month}-${day}`);
       const validator = minDateValidator();
       expect(validator(control)).toEqual({ minDate: true });
     });

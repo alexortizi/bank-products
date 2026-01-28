@@ -1,20 +1,38 @@
-<div class="skeleton-table">
-  <div class="skeleton-header">
-    <div class="skeleton-cell skeleton-cell--logo"></div>
-    <div class="skeleton-cell skeleton-cell--name"></div>
-    <div class="skeleton-cell skeleton-cell--description"></div>
-    <div class="skeleton-cell skeleton-cell--date"></div>
-    <div class="skeleton-cell skeleton-cell--date"></div>
-    <div class="skeleton-cell skeleton-cell--actions"></div>
-  </div>
-  @for (row of rowsArray; track $index) {
-    <div class="skeleton-row">
-      <div class="skeleton-cell skeleton-cell--logo"></div>
-      <div class="skeleton-cell skeleton-cell--name"></div>
-      <div class="skeleton-cell skeleton-cell--description"></div>
-      <div class="skeleton-cell skeleton-cell--date"></div>
-      <div class="skeleton-cell skeleton-cell--date"></div>
-      <div class="skeleton-cell skeleton-cell--actions"></div>
-    </div>
-  }
+<div class="skeleton-container">
+  <table class="skeleton-table">
+    <thead>
+      <tr>
+        <th class="col-logo">Logo</th>
+        <th class="col-name">Nombre del producto</th>
+        <th class="col-description">Descripción</th>
+        <th class="col-date">Fecha de liberación</th>
+        <th class="col-date">Fecha de revisión</th>
+        <th class="col-actions"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rowsArray; track $index) {
+        <tr>
+          <td class="col-logo">
+            <div class="skeleton skeleton--logo"></div>
+          </td>
+          <td class="col-name">
+            <div class="skeleton skeleton--text"></div>
+          </td>
+          <td class="col-description">
+            <div class="skeleton skeleton--text-long"></div>
+          </td>
+          <td class="col-date">
+            <div class="skeleton skeleton--text"></div>
+          </td>
+          <td class="col-date">
+            <div class="skeleton skeleton--text"></div>
+          </td>
+          <td class="col-actions">
+            <div class="skeleton skeleton--circle"></div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
 </div>

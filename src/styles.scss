@@ -61,12 +61,12 @@ img {
   }
 
   &-secondary {
-    background-color: $white;
+    background-color: $background-color;
     color: $text-color;
-    border: 1px solid $border-color;
+    border: none;
 
     &:hover:not(:disabled) {
-      background-color: $background-color;
+      background-color: darken($background-color, 5%);
     }
   }
 

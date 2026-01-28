@@ -2,6 +2,7 @@
 @import '../../../../../styles/mixins';
 
 .search-box {
+  position: relative;
   width: 100%;
   max-width: 300px;
 
@@ -12,8 +13,37 @@
 
 .search-input {
   @include input-base;
-  padding-left: $spacing-lg;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: $spacing-sm center;
+  padding-left: 10px;
+  padding-right: 36px;
+  border-radius: 4px;
+  background-color: $white;
+
+  &::placeholder {
+    color: $text-light;
+  }
+}
+
+.clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border: none;
+  background-color: $background-color;
+  border-radius: 50%;
+  color: $text-light;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color $transition-fast, color $transition-fast;
+
+  &:hover {
+    background-color: $border-color;
+    color: $text-color;
+  }
 }

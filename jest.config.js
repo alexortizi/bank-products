@@ -1,12 +1,13 @@
 module.exports = {
   preset: 'jest-preset-angular',
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
-  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/dist/'],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/dist/', '<rootDir>/src/environments/'],
   collectCoverageFrom: [
     'src/app/**/*.ts',
     '!src/app/**/*.routes.ts',
     '!src/main.ts',
-    '!src/app/app.config.ts'
+    '!src/app/app.config.ts',
+    '!src/app/core/mocks/**/*.ts'
   ],
   coverageThreshold: {
     global: {
